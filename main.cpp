@@ -1,8 +1,11 @@
-#include <iostream>
-using namespace std;
+#include "engine/Window.h"
 
 int main() {
-  cout << "Hello World!";
+  Window window(800, 600, "Flappy bird engine start");
+
+  while (!window.shouldClose()) {
+    window.update();
+  }
+
   return 0;
-  //commmits
-} 
+}
