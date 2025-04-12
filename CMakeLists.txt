@@ -13,20 +13,17 @@ set(SOURCES
 # Create executable
 add_executable(FlappyBirdEngine ${SOURCES})
 
-# Include header files
-target_include_directories(FlappyBirdEngine PRIVATE engine)
+# Include local engine and GLFW headers
+target_include_directories(FlappyBirdEngine PRIVATE engine engine/GLFW/include)
 
-# Manually specify GLFW path (adjust if needed)
-set(GLFW_ROOT "C:/libs/glfw")  # Change this to your actual GLFW path
+# Add GLFW source files manually if needed (for static build)
+# Alternatively, use add_subdirectory if GLFW has its own CMakeLists.txt
+file(GLOB GLFW_SRC "engine/GLFW/src/*.c")
+target_sources(FlappyBirdEngine PRIVATE ${GLFW_SRC})
 
-# Include GLFW headers
-target_include_directories(FlappyBirdEngine PRIVATE ${GLFW_ROOT}/include)
+# Define static build for GLFW
+add_definitions(-DGLFW_INCLUDE_NONE)
+add_definitions(-DGLFW_STATIC)
 
-# Link GLFW precompiled library
-target_link_libraries(FlappyBirdEngine PRIVATE ${GLFW_ROOT}/lib-vc2022/glfw3.lib)
-
-# Also link OpenGL (required by GLFW)
+# Link required system libraries
 target_link_libraries(FlappyBirdEngine PRIVATE opengl32)
-
-# Set output directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
